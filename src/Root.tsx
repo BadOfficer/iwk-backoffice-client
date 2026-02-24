@@ -1,0 +1,44 @@
+import { BrowserRouter, Route, Routes } from 'react-router';
+import App from './App';
+import { ROUTES } from './constants/routes';
+import { OrdersPage } from './pages/OrdersPage';
+import { OrderCreatePage } from './pages/OrderCreatePage';
+import { LoginPage } from './pages/LoginPage';
+import { OrderDetailsPage } from './pages/OrderDetailsPage';
+import { AuthProvider } from './features/auth/context/AuthContext';
+import { ProtectedRoute } from './features/auth/components/ProtectedRoute';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
+export function Root() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path={ROUTES.HOME}
+              element={
+                <ProtectedRoute>
+                  <App />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<OrdersPage />} />
+
+              <Route path={ROUTES.ORDERS} element={<OrdersPage />} />
+              <Route
+                path={ROUTES.ORDER_DETAILS}
+                element={<OrderDetailsPage />}
+              />
+              <Route path={ROUTES.ORDER_CREATE} element={<OrderCreatePage />} />
+            </Route>
+
+            <Route path={ROUTES.AUTH} element={<LoginPage />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}
