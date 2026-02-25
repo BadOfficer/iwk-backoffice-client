@@ -1,0 +1,123 @@
+@use '@/styles/colors' as *;
+@use '@/styles/mixins' as *;
+
+.sidebar {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  bottom: 0;
+  background-color: $sidebar-color;
+  z-index: 10000;
+  width: 240px;
+  transition: width 0.3s;
+  padding: 32px 12px;
+  overflow: hidden;
+  border-radius: 0;
+  transform: translateX(-100%);
+  transition:
+    transform 0.3s ease-in-out,
+    width 0.2s linear;
+
+  @include on-small-desktop {
+    border-radius: 8px;
+    top: 0;
+    transform: translateX(0);
+
+    & {
+      width: calc(40px + 2 * 12px);
+    }
+
+    @include desktop-hover {
+      &:hover {
+        width: 240px;
+
+        & .link {
+          border-radius: 100px;
+        }
+
+        & .linkText {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+  }
+}
+
+.activeSidebar {
+  transform: translateX(0);
+}
+
+.logo {
+  display: none;
+  width: 40px;
+
+  img {
+    width: 100%;
+  }
+
+  @include on-small-desktop {
+    display: block;
+  }
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.nav {
+  flex: 1;
+  border-bottom: 0.5px solid $divider-color;
+
+  @include on-small-desktop {
+    margin-top: 64px;
+  }
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.link {
+  display: flex;
+  padding-inline: 8px;
+  height: 40px;
+  color: $white-color;
+  align-items: center;
+  border-radius: 100px;
+  transition: background-color 0.2s ease-in-out;
+
+  @include desktop-hover {
+    &:hover {
+      background-color: rgba($color: #ffffff, $alpha: 0.12);
+    }
+  }
+
+  &:active {
+    background-color: rgba($color: #ffffff, $alpha: 0.12);
+  }
+}
+
+.activeLink {
+  background-color: rgba($color: #ffffff, $alpha: 0.12);
+}
+
+.linkText {
+  white-space: nowrap;
+  padding-left: 16px;
+
+  @include on-small-desktop {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.logoutBtn {
+  margin-top: 24px;
+  cursor: pointer;
+}
