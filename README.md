@@ -1,73 +1,102 @@
-# React + TypeScript + Vite
+# IWK Backoffice Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Administrative back-office single-page app for managing orders, filters, and map-based data. Built with React, TypeScript and Vite; intended as an internal tool for handling orders, viewing order locations on a map, uploading documents, and applying complex filters.
 
-Currently, two official plugins are available:
+## Live DEMO
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Experience the live website:
+[IWK-BACKOFFICE](https://iwk-backoffice.vercel.app)
 
-## React Compiler
+Visit the backend repository:
+[IWK-BACKOFFICE-BACKEND](https://github.com/restlessorg/iwk-backoffice)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Key Features
 
-## Expanding the ESLint configuration
+- Orders list with pagination, sorting and server-side filters
+- Order creation and details drawer with editable fields
+- Map view showing order coordinates and clusters (Leaflet)
+- CSV / file upload support for bulk operations
+- Reusable UI primitives: sidebars, drawers, pickers, and modals
+- Form validation with `react-hook-form` and `yup`
+- Client-side caching & data fetching via `@tanstack/react-query`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Framework: React + TypeScript
+- Build: Vite
+- UI components: MUI (Material UI)
+- Maps: Leaflet + `react-leaflet` (+ clustering)
+- HTTP client: Axios
+- Forms: `react-hook-form`, `yup`
+- Styling: SCSS modules
+- Linting/Formatting: ESLint + Prettier
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Dependencies (selected): React, React DOM, Vite, Axios, Leaflet, react-leaflet, @tanstack/react-query, MUI, sass
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+See `package.json` for exact versions and full dependency list.
+
+## Project Structure (high level)
+
+- `src/` — application source
+  - `api/` — Axios instance and API helpers
+  - `common/` — shared components, hooks, layout (Header, Sidebar)
+  - `features/` — domain features (orders, filters, uploads)
+  - `pages/` — route pages (orders list, map, create)
+  - `ui/` — small UI primitives (map, file uploader, drawers)
+  - `types/` — TypeScript models and shared types
+
+## Environment
+
+This project uses Vite environment variables. Create a `.env` file in project root and set at minimum:
+
+```
+VITE_API_URL=https://your.api.base.url
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The Axios instance reads `import.meta.env.VITE_API_URL` (see `src/api/axios.ts`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Setup & Development
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Prerequisites: Node.js (recommended v18+), npm or yarn.
+
+Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
 ```
+
+Run local development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+Available npm scripts (from `package.json`):
+
+- `dev` — start Vite dev server
+- `build` — run TypeScript build and create production bundle (`tsc -b && vite build`)
+- `preview` — preview the production build
+- `lint` — run ESLint
+
+## Building for production
+
+```bash
+npm run build
+npm run preview
+```
+
+## Development notes
+
+- API errors are normalized by the Axios interceptor in `src/api/axios.ts`.
+- Map clustering customization lives in `src/ui/map` and `src/ui/picker-marker`.
+- Filters and pagination are implemented with server-driven APIs; check `src/features/filters/api` and `src/features/orders/api` for request shapes.
+
+## Where to look first
+
+- `src/pages/orders/OrdersPage.tsx` — orders list and main interactions
+- `src/features/orders/api/orders.ts` — backend endpoints for orders
+- `src/api/axios.ts` — base Axios instance and error handling
