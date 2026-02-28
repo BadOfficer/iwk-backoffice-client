@@ -4,12 +4,10 @@ import { ROUTES } from '@/constants/routes';
 
 import HomeIcon from '@mui/icons-material/Home';
 import RoomIcon from '@mui/icons-material/Room';
-import LogoutIcon from '@mui/icons-material/Logout';
 import { Backdrop, Typography } from '@mui/material';
 import classNames from 'classnames';
 
 import logo from '@/assets/logo.svg';
-import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useSidebar } from '@/common/hooks/useSidebar';
 import { useEffect, useRef } from 'react';
 
@@ -29,7 +27,6 @@ const links = [
 ];
 
 export function Sidebar() {
-  const { logout } = useAuth();
   const { close, isOpen } = useSidebar();
   const location = useLocation();
 
@@ -94,20 +91,6 @@ export function Sidebar() {
               ))}
             </ul>
           </nav>
-
-          <button
-            className={classNames(styles.logoutBtn, styles.link)}
-            onClick={logout}
-          >
-            <LogoutIcon />
-            <Typography
-              variant="body2"
-              className={styles.linkText}
-              fontWeight={500}
-            >
-              Logout
-            </Typography>
-          </button>
         </div>
       </aside>
     </>

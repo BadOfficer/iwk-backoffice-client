@@ -70,7 +70,6 @@
 
 .nav {
   flex: 1;
-  border-bottom: 0.5px solid $divider-color;
 
   @include on-small-desktop {
     margin-top: 64px;
@@ -115,9 +114,4 @@
     opacity: 0;
     visibility: hidden;
   }
-}
-
-.logoutBtn {
-  margin-top: 24px;
-  cursor: pointer;
 }
