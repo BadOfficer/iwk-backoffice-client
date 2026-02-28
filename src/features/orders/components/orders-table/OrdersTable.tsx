@@ -63,7 +63,7 @@ export const OrdersTable = memo(function OrdersTable({
                 <TableCell>{order.id}</TableCell>
                 <TableCell>{formatDate(new Date(order.timestamp))}</TableCell>
                 <TableCell>
-                  <Typography>longitude: {order.longitude}</Typography>
+                  <Typography>Longitude: {order.longitude}</Typography>
                   <Typography>Latitude: {order.latitude}</Typography>
                 </TableCell>
 

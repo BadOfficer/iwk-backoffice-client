@@ -1,6 +1,6 @@
 import type { CoordsWithIds } from '@/types/Order';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
-import type { ReactNode } from 'react';
+import { CircleMarker, MapContainer, Marker, TileLayer } from 'react-leaflet';
+import { useMemo, type ReactNode } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router';
 
@@ -16,6 +16,7 @@ interface Props {
   onClick?: ({ lat, lng }: { lat: number; lng: number }) => void;
   children?: ReactNode;
   withBackBtn?: boolean;
+  markerType?: 'circle' | 'default';
 }
 
 export function Map({
@@ -23,11 +24,29 @@ export function Map({
   orders = [],
   withBackBtn = false,
   children,
+  markerType = 'default',
 }: Props) {
   const navigate = useNavigate();
   const handleBack = () => {
     navigate('..');
   };
+
+  const markers = useMemo(() => {
+    return markerType === 'default'
+      ? orders.map((orderItem) => (
+          <Marker
+            position={[orderItem.latitude, orderItem.longitude]}
+            key={orderItem.id}
+          />
+        ))
+      : orders.map((orderItem) => (
+          <CircleMarker
+            key={orderItem.id}
+            center={[orderItem.latitude, orderItem.longitude]}
+            radius={4}
+          />
+        ));
+  }, [orders]);
 
   return (
     <>
@@ -52,19 +71,23 @@ export function Map({
           Back
         </Button>
       )}
-      <MapContainer center={center} zoom={13} scrollWheelZoom={true}>
+      <MapContainer
+        center={center}
+        zoom={10}
+        scrollWheelZoom={true}
+        preferCanvas={true}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         <MarkerClusterGroup
           chunkedLoading
-          maxClusterRadius={60}
+          maxClusterRadius={80}
+          removeOutsideVisibleBounds={true}
           iconCreateFunction={createCustomClusterIcon}
         >
-          {orders.map(({ id, latitude, longitude: longitude }) => (
-            <Marker position={[latitude, longitude]} key={id} />
-          ))}
+          {markers}
         </MarkerClusterGroup>
 
         {children}

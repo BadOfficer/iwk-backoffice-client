@@ -22,8 +22,17 @@ export function useFilters(initFilters: FiltersLimits | undefined) {
   };
 
   const reset = () => {
-    setFilters((prev) => ({ ...prev, ...initFilters }));
-    setAppliedFilters((prev) => ({ ...prev, ...initFilters }));
+    if (initFilters) {
+      const resetValues = {
+        ...initFilters,
+        date: ['', ''] as [string, string],
+      };
+      setFilters(resetValues);
+      setAppliedFilters(resetValues);
+    } else {
+      setFilters(initialFilters);
+      setAppliedFilters(initialFilters);
+    }
   };
 
   useEffect(() => {

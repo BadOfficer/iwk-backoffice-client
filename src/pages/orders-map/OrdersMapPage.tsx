@@ -35,7 +35,9 @@ export function OrdersMapPage() {
           <CircularProgress />
         </Box>
       )}
-      {coords && !loadingCoords && <Map orders={coords} withBackBtn />}
+      {coords && !loadingCoords && (
+        <Map orders={coords} withBackBtn markerType="circle" />
+      )}
     </main>
   );
 }

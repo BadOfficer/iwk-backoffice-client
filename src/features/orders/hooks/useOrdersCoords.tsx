@@ -4,7 +4,7 @@ import { getOrdersCoords } from '../api/orders';
 export function useOrdersCoords() {
   const {
     data: coords,
-    isLoading: loadingCoords,
+    isFetching: loadingCoords,
     error: coordsError,
     isError: isCoordsError,
   } = useQuery({
