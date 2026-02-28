@@ -1,5 +1,6 @@
 import type { Coords } from '@/types/Order';
 import { Marker, useMapEvents } from 'react-leaflet';
+import { customIcon } from '../map';
 
 interface Props {
   onClick: ({ latitude, longitude }: Coords) => void;
@@ -16,6 +17,7 @@ export function PickerMarker({ onClick, markerCoords }: Props) {
   return markerCoords ? (
     <Marker
       position={{ lat: markerCoords.latitude, lng: markerCoords.longitude }}
+      icon={customIcon}
     />
   ) : null;
 }
