@@ -1,0 +1,15 @@
+@use '@/styles/mixins' as *;
+
+.wrapper {
+  margin-left: 0;
+  padding-block: 32px;
+  height: 100%;
+
+  @include on-small-desktop {
+    margin-left: 64px;
+  }
+}
+
+.tableWrapper {
+  flex: 1;
+}

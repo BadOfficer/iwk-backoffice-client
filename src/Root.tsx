@@ -1,10 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import App from './App';
 import { ROUTES } from './constants/routes';
 import { OrdersPage } from './pages/orders';
-import { OrderCreatePage } from './pages/OrderCreatePage';
+import { OrderCreatePage } from './pages/order-create';
 import { LoginPage } from './pages/LoginPage';
-import { OrderDetailsPage } from './pages/OrderDetailsPage';
 import { AuthProvider } from './features/auth/context/AuthContext';
 import { ProtectedRoute } from './features/auth/components/ProtectedRoute';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -26,13 +25,10 @@ export function Root() {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<OrdersPage />} />
+              <Route index element={<Navigate to={ROUTES.ORDERS} />} />
 
               <Route path={ROUTES.ORDERS} element={<OrdersPage />} />
-              <Route
-                path={ROUTES.ORDER_DETAILS}
-                element={<OrderDetailsPage />}
-              />
+
               <Route path={ROUTES.ORDER_CREATE} element={<OrderCreatePage />} />
 
               <Route path={ROUTES.ORDERS_MAP} element={<OrdersMapPage />} />

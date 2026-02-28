@@ -11,8 +11,23 @@ import { createRoot } from 'react-dom/client';
 import { Root } from './Root.tsx';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
-import { deepOrange, grey } from '@mui/material/colors';
+import { blue, deepOrange, grey } from '@mui/material/colors';
 import { SidebarProvider } from './common/context/SidebarContext.tsx';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    secondaryBtn: Palette['primary'];
+  }
+  interface PaletteOptions {
+    secondaryBtn?: PaletteOptions['primary'];
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    secondaryBtn: true;
+  }
+}
 
 const theme = createTheme({
   palette: {
@@ -21,8 +36,11 @@ const theme = createTheme({
       dark: deepOrange[600],
     },
     secondary: {
+      main: blue['A700'],
+    },
+    secondaryBtn: {
       main: grey[100],
-      dark: grey[200],
+      dark: grey[300],
     },
   },
   breakpoints: {

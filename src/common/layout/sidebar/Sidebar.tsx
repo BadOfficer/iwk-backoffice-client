@@ -18,7 +18,7 @@ const links = [
     id: 1,
     icon: <HomeIcon />,
     label: 'Home',
-    path: ROUTES.HOME,
+    path: ROUTES.ORDERS,
   },
   {
     id: 2,

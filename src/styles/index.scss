@@ -4,7 +4,7 @@
 @use './normilize' as *;
 
 body {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .container {
@@ -24,10 +24,21 @@ body {
   }
 }
 
+#root .leaflet-control-zoom {
+  margin-left: 12px;
+  margin-top: calc(64px + 12px);
+
+  @include on-small-desktop {
+    & {
+      margin-top: 12px;
+      margin-left: calc(64px + 12px);
+    }
+  }
+}
+
 #root,
 .content,
 .main {
   height: 100%;
-  min-width: 320px;
-  overflow-x: hidden;
+  min-width: 400px;
 }

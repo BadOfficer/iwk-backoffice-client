@@ -3,6 +3,5 @@ export const ROUTES = {
   ORDERS: '/orders',
   AUTH: '/login',
   ORDER_CREATE: '/orders/create',
-  ORDER_DETAILS: '/orders/:id',
   ORDERS_MAP: '/map',
 };
