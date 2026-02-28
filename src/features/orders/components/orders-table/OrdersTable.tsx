@@ -63,7 +63,7 @@ export const OrdersTable = memo(function OrdersTable({
                 <TableCell>{order.id}</TableCell>
                 <TableCell>{formatDate(new Date(order.timestamp))}</TableCell>
                 <TableCell>
-                  <Typography>Longtitude: {order.longtitude}</Typography>
+                  <Typography>longitude: {order.longitude}</Typography>
                   <Typography>Latitude: {order.latitude}</Typography>
                 </TableCell>
 
@@ -71,9 +71,7 @@ export const OrdersTable = memo(function OrdersTable({
                   {formatCurrency(order.subTotal)}
                 </CenteredTableCell>
 
-                <CenteredTableCell>
-                  {(order.taxRate * 100).toFixed(2)}%
-                </CenteredTableCell>
+                <CenteredTableCell>{order.taxRate}%</CenteredTableCell>
                 <CenteredTableCell>
                   {formatCurrency(order.taxAmount)}
                 </CenteredTableCell>

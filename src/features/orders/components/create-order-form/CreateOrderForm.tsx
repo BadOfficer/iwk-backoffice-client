@@ -10,6 +10,7 @@ import { MapContent } from '@/common/ui/map-content/MapContent';
 interface Props {
   coords: Coords | null;
   onChange: (coord: Coords | null) => void;
+  onSubmit?: (data: CreateOrder) => void;
 }
 
 export const createOrderSchema = yup.object({
@@ -17,10 +18,10 @@ export const createOrderSchema = yup.object({
     .number()
     .typeError('Latitude must be a number')
     .required('Latitude is required'),
-  longtitude: yup
+  longitude: yup
     .number()
-    .typeError('Longtitude must be a number')
-    .required('Longtitude is required'),
+    .typeError('longitude must be a number')
+    .required('longitude is required'),
   subTotal: yup
     .number()
     .typeError('Subtotal must be a number')
@@ -28,10 +29,14 @@ export const createOrderSchema = yup.object({
     .min(1, 'Subtotal cannot be negative or 0'),
 });
 
-export function CreateOrderForm({ coords, onChange }: Props) {
+export function CreateOrderForm({
+  coords,
+  onChange,
+  onSubmit = () => {},
+}: Props) {
   const {
     register,
-    handleSubmit,
+    handleSubmit: submitForm,
     formState: { errors },
     setValue,
     reset,
@@ -40,7 +45,7 @@ export function CreateOrderForm({ coords, onChange }: Props) {
     resolver: yupResolver(createOrderSchema),
     defaultValues: {
       latitude: coords?.latitude,
-      longtitude: coords?.longtitude,
+      longitude: coords?.longitude,
     },
   });
 
@@ -48,11 +53,11 @@ export function CreateOrderForm({ coords, onChange }: Props) {
     if (!coords) return;
 
     setValue('latitude', coords.latitude);
-    setValue('longtitude', coords.longtitude);
+    setValue('longitude', coords.longitude);
   }, [coords, setValue]);
 
   const watchLat = watch('latitude');
-  const watchLng = watch('longtitude');
+  const watchLng = watch('longitude');
 
   useEffect(() => {
     if (
@@ -65,13 +70,14 @@ export function CreateOrderForm({ coords, onChange }: Props) {
     } else {
       onChange({
         latitude: Number(watchLat),
-        longtitude: Number(watchLng),
+        longitude: Number(watchLng),
       });
     }
   }, [watchLat, watchLng, onChange]);
 
-  const onSubmit = (data: CreateOrder) => {
+  const handleSubmit = (data: CreateOrder) => {
     console.log('Form data:', data);
+    onSubmit(data);
   };
 
   return (
@@ -89,7 +95,7 @@ export function CreateOrderForm({ coords, onChange }: Props) {
             borderRadius: '8px',
           }}
         >
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={submitForm(handleSubmit)}>
             <Box
               sx={{
                 display: 'flex',
@@ -126,12 +132,12 @@ export function CreateOrderForm({ coords, onChange }: Props) {
                 />
 
                 <TextField
-                  label="Longtitude"
-                  error={!!errors.longtitude}
-                  helperText={errors.longtitude?.message}
-                  {...register('longtitude')}
+                  label="longitude"
+                  error={!!errors.longitude}
+                  helperText={errors.longitude?.message}
+                  {...register('longitude')}
                   onChange={(e) => {
-                    register('longtitude').onChange(e);
+                    register('longitude').onChange(e);
                     if (!e.target.value) onChange(null);
                   }}
                   slotProps={{

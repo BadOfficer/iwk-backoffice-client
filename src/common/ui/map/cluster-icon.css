@@ -1,0 +1,35 @@
+/* Base style for all clusters */
+.custom-marker-cluster {
+  background-clip: padding-box;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  border: 4px solid rgba(255, 255, 255, 0.5);
+}
+
+.custom-marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 1px;
+  margin-top: 1px;
+  text-align: center;
+  border-radius: 15px;
+  font-size: 12px;
+  line-height: 30px;
+}
+
+/* Color coding based on density */
+.custom-marker-cluster-small {
+  background-color: #b5e28c; /* Greenish */
+}
+
+.custom-marker-cluster-medium {
+  background-color: #f1d357; /* Yellowish */
+}
+
+.custom-marker-cluster-large {
+  background-color: #fd9c73; /* Oranger/Red */
+}

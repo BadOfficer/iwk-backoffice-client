@@ -11,14 +11,21 @@ export function useOrders(
 ) {
   const {
     data: ordersData,
-    isLoading: loadingOrders,
-    error,
-    isSuccess,
+    isFetching: loadingOrders,
+    error: ordersError,
+    refetch: refetchOrders,
+    isError: isOrdersError,
   } = useQuery({
     queryKey: ['orders', query, page, perPage, filters],
     queryFn: () => getTableOrders(page, perPage, query, filters),
     enabled: flag,
   });
 
-  return { ordersData, loadingOrders, error, isSuccess };
+  return {
+    ordersData,
+    loadingOrders,
+    ordersError,
+    refetchOrders,
+    isOrdersError,
+  };
 }

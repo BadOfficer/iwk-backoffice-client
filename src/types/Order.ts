@@ -4,7 +4,7 @@ export interface Order {
   id: number;
   timestamp: string;
   latitude: number;
-  longtitude: number;
+  longitude: number;
   subTotal: number;
   totalAmount: number;
   taxRate: number;
@@ -17,6 +17,7 @@ export interface Order {
   state: string;
   county: string;
   city: string;
+  special: string;
 }
 
 export type TableOrder = Pick<
@@ -24,7 +25,7 @@ export type TableOrder = Pick<
   | 'id'
   | 'timestamp'
   | 'latitude'
-  | 'longtitude'
+  | 'longitude'
   | 'subTotal'
   | 'taxRate'
   | 'taxAmount'
@@ -33,6 +34,17 @@ export type TableOrder = Pick<
 
 export interface PaginatedOrders extends PaginatedResponse<TableOrder[]> {}
 
-export type CreateOrder = Pick<Order, 'latitude' | 'longtitude' | 'subTotal'>;
+export type CreateOrder = Pick<Order, 'latitude' | 'longitude' | 'subTotal'>;
 
-export type Coords = Pick<Order, 'latitude' | 'longtitude'>;
+export interface CreateOrderResponse {
+  id: Order['id'];
+}
+
+export interface OrdersImportResponse {
+  saved: number;
+  rejected: number;
+  processed: number;
+}
+
+export type Coords = Pick<Order, 'latitude' | 'longitude'>;
+export type CoordsWithIds = Coords & Pick<Order, 'id'>;

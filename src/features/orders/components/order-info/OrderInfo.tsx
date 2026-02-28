@@ -22,7 +22,7 @@ export function OrderInfo({ order }: Props) {
           value={formatTime(new Date(order.timestamp))}
         />
       </Details.Group>
-      <Details.Row title="Longtitude" value={order.longtitude} />
+      <Details.Row title="longitude" value={order.longitude} />
       <Details.Row title="Latitude" value={order.latitude} />
       <Details.Row title="Subtotal" value={formatCurrency(order.subTotal)} />
       <Details.Row

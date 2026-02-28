@@ -3,11 +3,11 @@ import App from './App';
 import { ROUTES } from './constants/routes';
 import { OrdersPage } from './pages/orders';
 import { OrderCreatePage } from './pages/order-create';
-import { LoginPage } from './pages/LoginPage';
+import { LoginPage } from './pages/login';
 import { AuthProvider } from './features/auth/context/AuthContext';
 import { ProtectedRoute } from './features/auth/components/ProtectedRoute';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { OrdersMapPage } from './pages/OrdersMapPage';
+import { OrdersMapPage } from './pages/orders-map';
 
 const queryClient = new QueryClient();
 

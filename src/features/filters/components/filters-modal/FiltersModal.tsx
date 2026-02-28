@@ -194,7 +194,7 @@ export function FiltersModal({
                   id="totalAmount"
                   name="totalAmount"
                   min={filtersLimits.totalAmount[0]}
-                  max={filtersLimits.taxAmount[1]}
+                  max={filtersLimits.totalAmount[1]}
                   onChange={(from, to) =>
                     onChangeFilter('totalAmount', [from, to])
                   }

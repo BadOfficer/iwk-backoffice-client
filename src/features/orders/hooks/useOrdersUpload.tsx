@@ -2,10 +2,12 @@ import { instance } from '@/api/axios';
 import type { UploadStatus } from '@/common/ui/file-uploader';
 import { useState } from 'react';
 import { MAX_FILE_SIZE } from '../constants';
+import type { OrdersImportResponse } from '@/types/Order';
 
 export function useOrdersUpload() {
   const [status, setStatus] = useState<UploadStatus>('idle');
   const [progress, setProgress] = useState(0);
+  const [response, setResponse] = useState<OrdersImportResponse | null>(null);
 
   const reset = () => {
     setStatus('idle');
@@ -25,25 +27,31 @@ export function useOrdersUpload() {
     }
 
     const formData = new FormData();
-    formData.append('orders', file);
+    formData.append('file', file);
 
     try {
-      await instance.post('https://httpbin.org/post', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        onUploadProgress: (progressEvent) => {
-          const progress = progressEvent.total
-            ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
-            : 0;
+      const response = await instance.post<OrdersImportResponse>(
+        '/orders/import',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress: (progressEvent) => {
+            const progress = progressEvent.total
+              ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
+              : 0;
 
-          setProgress(progress);
-        },
-      });
+            setProgress(progress);
+          },
+        }
+      );
 
+      setResponse(response.data);
       setStatus('success');
       setProgress(100);
     } catch (e) {
+      console.error(e);
       setStatus('error');
       setProgress(0);
     }
@@ -54,5 +62,6 @@ export function useOrdersUpload() {
     progress,
     handleOrdersUpload,
     reset,
+    importResponse: response,
   };
 }

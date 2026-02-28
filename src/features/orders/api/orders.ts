@@ -1,6 +1,12 @@
-import { mockPaginatedOrders } from '@/common/utils/generateMockOrders';
+import { instance } from '@/api/axios';
 import type { Filters } from '@/types/Filters';
-import type { Order, PaginatedOrders } from '@/types/Order';
+import type {
+  CoordsWithIds,
+  CreateOrder,
+  CreateOrderResponse,
+  Order,
+  PaginatedOrders,
+} from '@/types/Order';
 
 export async function getTableOrders(
   page: number,
@@ -8,30 +14,48 @@ export async function getTableOrders(
   query: string,
   filters: Filters
 ): Promise<PaginatedOrders> {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const params = {
+    page,
+    perPage,
+    query,
+    date: filters.date.join(','),
+    subTotal: filters.subTotal.join(','),
+    taxAmount: filters.taxAmount.join(','),
+    taxRate: filters.taxRate.join(','),
+    totalAmount: filters.totalAmount.join(','),
+  };
 
-  return mockPaginatedOrders;
+  const { data } = await instance.get<PaginatedOrders>('/orders', {
+    params,
+  });
+
+  return data;
 }
 
 export async function getOrderById(id: Order['id']): Promise<Order> {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  return Promise.resolve({
-    id: 1001,
-    timestamp: '2026-02-27T14:32:18Z',
-    latitude: 34.052235,
-    longtitude: -118.243683,
-    subTotal: 85.5,
-    taxRate: 0.095,
-    stateRate: 0.0625,
-    countyRate: 0.01,
-    cityRate: 0.015,
-    specialRate: 0.0075,
-    taxAmount: 8.12,
-    totalAmount: 93.62,
-    country: 'United States',
-    state: 'California',
-    county: 'Los Angeles County',
-    city: 'Los Angeles',
-  });
+  const { data } = await instance.get<Order>(`/orders/${id}`);
+
+  return data;
+}
+
+export async function getOrdersCoords(): Promise<CoordsWithIds[]> {
+  const { data } = await instance.get<CoordsWithIds[]>('/orders/map');
+
+  return data;
+}
+
+export async function createOrder(
+  createOrderData: CreateOrder
+): Promise<CreateOrderResponse> {
+  const body: CreateOrder = {
+    latitude: createOrderData.latitude,
+    longitude: createOrderData.longitude,
+    subTotal: createOrderData.subTotal,
+  };
+
+  const { data } = await instance.post<CreateOrderResponse>('orders', body);
+
+  return data;
 }

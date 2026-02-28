@@ -8,6 +8,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { OrderInfo } from '../order-info';
 import { OrderJurisdictions } from '../order-jurisdictions';
 import { Map } from '@/common/ui/map';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 interface Props {
   id: Order['id'];
@@ -16,7 +18,15 @@ interface Props {
 }
 
 export function OrderDetailsSidebar({ id, isOpen, onClose }: Props) {
-  const { orderData, loadingOrderData } = useOrder(id);
+  const { orderData, loadingOrderData, orderError, isOrderError } =
+    useOrder(id);
+
+  useEffect(() => {
+    if (isOrderError && orderError) {
+      toast.error(orderError.message);
+      onClose();
+    }
+  }, [orderError, isOrderError]);
 
   return (
     <RightDrawer isOpen={isOpen} onClose={onClose}>
@@ -55,10 +65,10 @@ export function OrderDetailsSidebar({ id, isOpen, onClose }: Props) {
                 {
                   id: orderData.id,
                   latitude: orderData.latitude,
-                  longtitude: orderData.longtitude,
+                  longitude: orderData.longitude,
                 },
               ]}
-              center={[orderData.latitude, orderData.longtitude]}
+              center={[orderData.latitude, orderData.longitude]}
             />
           </Box>
         </Box>

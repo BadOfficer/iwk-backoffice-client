@@ -5,12 +5,13 @@ import { getOrderById } from '../api/orders';
 export function useOrder(id: Order['id']) {
   const {
     data: orderData,
-    isLoading: loadingOrderData,
-    error,
+    isFetching: loadingOrderData,
+    error: orderError,
+    isError: isOrderError,
   } = useQuery({
     queryKey: ['order'],
     queryFn: () => getOrderById(id),
   });
 
-  return { orderData, loadingOrderData, error };
+  return { orderData, loadingOrderData, orderError, isOrderError };
 }

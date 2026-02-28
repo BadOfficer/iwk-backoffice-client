@@ -1,12 +1,14 @@
+import { instance } from '@/api/axios';
 import type { FiltersLimits } from '@/types/Filters';
 
 export async function getFiltersLimits(): Promise<FiltersLimits> {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  // try {
 
-  return Promise.resolve({
-    subTotal: [0, 1000],
-    taxAmount: [0, 200],
-    taxRate: [0, 0.2],
-    totalAmount: [0, 1200],
-  });
+  // } catch (e) {
+  //   console.error(e);
+  //   throw new Error('Something went wrong');
+  // }
+  const { data } = await instance.get<FiltersLimits>('/orders/filterlimits');
+
+  return data;
 }

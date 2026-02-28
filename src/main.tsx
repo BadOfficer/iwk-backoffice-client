@@ -14,6 +14,8 @@ import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { blue, deepOrange, grey } from '@mui/material/colors';
 import { SidebarProvider } from './common/context/SidebarContext.tsx';
 
+import { ToastContainer } from 'react-toastify';
+
 declare module '@mui/material/styles' {
   interface Palette {
     secondaryBtn: Palette['primary'];
@@ -62,5 +64,6 @@ createRoot(document.getElementById('root')!).render(
         <Root />
       </SidebarProvider>
     </ThemeProvider>
+    <ToastContainer position="top-right" />
   </StrictMode>
 );

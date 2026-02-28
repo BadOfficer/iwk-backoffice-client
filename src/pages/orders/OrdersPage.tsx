@@ -17,11 +17,18 @@ import { useFilters } from '@/features/filters/hooks/useFilters';
 import { FiltersModal } from '@/features/filters/components/filters-modal';
 import { useOrders } from '@/features/orders/hooks/useOrders';
 import { OrderDetailsSidebar } from '@/features/orders/components/order-details-sidebar';
+import { Error } from '@/common/ui/error';
 
 export function OrdersPage() {
   const navigate = useNavigate();
 
-  const { filtersLimits, loadingFiltersLimits } = useFiltersLimit();
+  const {
+    filtersLimits,
+    loadingFiltersLimits,
+    filtersLimitsError,
+    refetcFilterLimits,
+    isFiltersLimitsError,
+  } = useFiltersLimit();
 
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
@@ -55,6 +62,9 @@ export function OrdersPage() {
       totalElements: 0,
     },
     loadingOrders,
+    ordersError,
+    refetchOrders,
+    isOrdersError,
   } = useOrders(query, page, rowsPerPage, appliedFilters, isFiltersExist);
 
   const handleSubmitFilters = () => {
@@ -70,6 +80,34 @@ export function OrdersPage() {
   const isLoading = loadingFiltersLimits || loadingOrders;
   const isDisabled =
     loadingFiltersLimits || loadingOrders || ordersData?.data.length === 0;
+  const isError = isFiltersLimitsError || isOrdersError;
+  const error = filtersLimitsError || ordersError;
+
+  if (isError && error) {
+    return (
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%,-50%)',
+        }}
+      >
+        <Error
+          title="Error"
+          onRetry={() => {
+            if (filtersLimitsError) {
+              return refetcFilterLimits();
+            }
+
+            refetchOrders();
+          }}
+        >
+          {error.message}
+        </Error>
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -141,7 +179,7 @@ export function OrdersPage() {
                 changePerPage={changePerPage}
                 page={page}
                 rowsPerPage={rowsPerPage}
-                totalElements={11322}
+                totalElements={ordersData.totalElements}
                 isDisabled={isDisabled}
               />
             </Card>

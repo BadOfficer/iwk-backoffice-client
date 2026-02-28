@@ -2,10 +2,22 @@ import { useQuery } from '@tanstack/react-query';
 import { getFiltersLimits } from '../api/filters';
 
 export function useFiltersLimit() {
-  const { data: filtersLimits, isLoading: loadingFiltersLimits } = useQuery({
+  const {
+    data: filtersLimits,
+    isLoading: loadingFiltersLimits,
+    isError: isFiltersLimitsError,
+    error: filtersLimitsError,
+    refetch: refetcFilterLimits,
+  } = useQuery({
     queryKey: ['filters'],
     queryFn: getFiltersLimits,
   });
 
-  return { filtersLimits, loadingFiltersLimits };
+  return {
+    filtersLimits,
+    loadingFiltersLimits,
+    filtersLimitsError,
+    refetcFilterLimits,
+    isFiltersLimitsError,
+  };
 }
