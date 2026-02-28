@@ -5,6 +5,7 @@ import { OrdersPage } from './pages/orders';
 import { OrderCreatePage } from './pages/order-create';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { OrdersMapPage } from './pages/orders-map';
+import { NotFoundPage } from './pages/not-found';
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,8 @@ export function Root() {
 
             <Route path={ROUTES.ORDERS_MAP} element={<OrdersMapPage />} />
           </Route>
+
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

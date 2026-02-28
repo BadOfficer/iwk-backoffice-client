@@ -82,6 +82,8 @@ export function OrdersPage() {
     loadingFiltersLimits || loadingOrders || ordersData?.data.length === 0;
   const isQueryDisabled =
     loadingFiltersLimits || (ordersData.totalElements === 0 && !loadingOrders);
+  const isFiltersDisabled =
+    loadingFiltersLimits || loadingOrders || !isFiltersExist;
 
   const isError = isFiltersLimitsError || isOrdersError;
   const error = filtersLimitsError || ordersError;
@@ -157,7 +159,7 @@ export function OrdersPage() {
                 changeQuery(val);
               }}
               isQueryDisabled={isQueryDisabled}
-              isFiltersDisabled={isDisabled || !isFiltersExist}
+              isFiltersDisabled={isFiltersDisabled}
             />
             <Card sx={{ marginTop: '16px' }}>
               {isLoading && (
